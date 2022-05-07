@@ -4,7 +4,7 @@ local PS = require "ps"
 local utils = require "utils"
 local Client = require "client"
 
-local loop = cqueues.new()
+local loop, looperr = cqueues.new()
 
 local function main()
     os.setlocale("") -- for proper unicode support, or that's what Copilot thinks
@@ -26,7 +26,7 @@ local function main()
     curses.init_pair(4, curses.COLOR_WHITE, curses.COLOR_BLACK)
 
     local client = PS.new(nil, loop)
-    local interface = Client.new(screen, client.users:getUser(""))
+    local interface = Client.new(screen, client)
     client.rawCallbacks.updateuser:register(function(_, nick)
         interface:log("", "Your username is now " .. nick:gsub("^%s*", "") .. ".")
     end)
@@ -54,7 +54,7 @@ local function main()
         client:send(str)
     end)
 
-    client:connect("[REDACTED]", "[REDACTED]") -- yes I will add a /connect command or something
+    --client:connect("[REDACTED]", "[REDACTED]") -- yes I will add a /connect command or something
 
     loop:wrap(function()
         while true do

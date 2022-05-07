@@ -19,7 +19,7 @@ _(room name)_TOP_____________
 __INPUT______________________
 ]]
 
-client.new = function(screen, tildeUser)
+client.new = function(screen, client)
     local t = setmetatable({}, mt)
     t.screen = screen
     local height, width = screen:getmaxyx()
@@ -47,7 +47,9 @@ client.new = function(screen, tildeUser)
     t:updateRoom("", {type = "status", name = "~"})
 
     t.PMs = {}
-    t.PMs[tildeUser] = t.rooms[""]
+    t.PMs[client.users:getUser("")] = t.rooms[""]
+
+    t.client = client
 
     t:switchWindow(1)
 
@@ -233,6 +235,16 @@ methods.getInput = function(self)
     elseif c == 13 or c == 15 or c == curses.KEY_ENTER then
         local input = self.input:get()
         self.input:erase()
+        if input:match("/") then -- this is a command, possibly run it locally
+            local cmd, args = input:match("^/([^%s]+)%s*(.*)$")
+            if cmd then
+                if cmd == "connect" and args:match("^(.*),(.*)$") then
+                    local nick, pass = args:match("^(.*),(.*)$")
+                    self.client:connect(nick, pass)
+                    return
+                end
+            end
+        end
         self:send(input)
     elseif c == 27 then
         self.input.escape = true
