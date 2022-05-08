@@ -23,8 +23,7 @@ utils.wrapLine = function(line, width)
     if type(line) == "string" then
         text = line
     else
-        local rank = line.room and line.room:getUserRank(line.sender) or " "
-        indent = rank .. line.sender.name .. ": "
+        indent = line.senderName .. ": "
         text =  line.text
     end
 
