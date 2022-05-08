@@ -8,6 +8,7 @@
  - Add proper command support
  - Retain input when switching rooms
  - Add sent message history for rooms
+ - Add tab completion
  - `^W` for ctrl+backspace
  - `^C` shouldn't terminate
 
