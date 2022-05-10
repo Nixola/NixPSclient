@@ -166,9 +166,9 @@ methods.redraw = function(self)
 
     self.window:render(self.sections.display)
 
-    self.input:redraw()
-
     self:redrawStatus()
+    
+    self.input:redraw()
 end
 
 methods.log = function(self, roomID, txt)
