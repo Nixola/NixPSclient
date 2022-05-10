@@ -2,7 +2,7 @@
 ## UI
  - Handle status bar overflow  
  - Add a userlist pane
- - Add room messages scrolling
+ - Turn room scrolling into line-based scrolling, not message-based
 
 ## Input
  - Add proper command support
@@ -10,7 +10,6 @@
  - Add sent message history for rooms
  - Add tab completion
  - `^W` for ctrl+backspace
- - `^C` shouldn't terminate
 
 ## Features
  - sqlite storage
