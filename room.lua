@@ -34,6 +34,9 @@ end
 
 methods.message = function(self, message)
     self.lines[#self.lines + 1] = message
+    if self.scroll > 0 then
+        self.scroll = self.scroll + 1
+    end
 end
 
 methods.log = function(self, text)
@@ -48,8 +51,9 @@ methods.render = function(self, window)
     window:erase()
     local lines = {}
     local i = #self.lines
+    self.scroll = math.max(0, math.min(self.scroll, #self.lines - height))
     while #lines < height and i > 0 do
-        local line = self.lines[i]
+        local line = self.lines[i - self.scroll]
         local n = #lines + 1
         for part in utils.wrapLine(line, width - 2) do
             table.insert(lines, n, part)
