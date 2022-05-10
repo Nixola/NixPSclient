@@ -13,7 +13,7 @@ local function main()
     screen:clear()
     screen:keypad()
 
-    curses.cbreak ()
+    curses.raw ()
     curses.echo (false)	-- not noecho !
     curses.nl (false)	-- not nonl !
     screen:idcok(false)
