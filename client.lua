@@ -242,6 +242,8 @@ methods.getInput = function(self)
                     local nick, pass = args:match("^(.*),(.*)$")
                     self.client:connect(nick, pass)
                     return
+                elseif cmd == "quit" then
+                    os.exit()
                 end
             end
         end
