@@ -236,7 +236,7 @@ methods.getInput = function(self)
         local input = self.input:get()
         self.input:erase()
         if input:match("/") then -- this is a command, possibly run it locally
-            local cmd, args = input:match("^/([^%s]+)%s*(.*)$")
+            local cmd, args = input:match("^/([^%s]+)%s*(.*)$") -- TODO: this is horrifying. fix it
             if cmd then
                 if cmd == "connect" and args:match("^(.*),(.*)$") then
                     local nick, pass = args:match("^(.*),(.*)$")
