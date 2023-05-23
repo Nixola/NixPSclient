@@ -1,4 +1,5 @@
 local utils = require "utils"
+local curses = require "curses"
 
 local input = {}
 local methods = {}
