@@ -63,5 +63,12 @@ utils.wrapLine = function(line, width)
     end
 end
 
+utils.split = function(str, sep) -- split a string into a table on a separator character, defaulting to pipe
+    local sep, fields = sep or "|", {}
+    local pattern = string.format("([^%s]+)", sep)
+    str:gsub(pattern, function(c) fields[#fields+1] = c end)
+    return fields
+end
+
 
 return utils
