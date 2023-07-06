@@ -4,6 +4,8 @@ local Room = require "room"
 local Input = require "input"
 local utf8 = require "utf8"
 local Callback = require "ps.callbacks"
+local psutils = require "ps.utils"
+local storage = require "storage"
 
 local client = {}
 local methods = {}
@@ -237,10 +239,22 @@ methods.getInput = function(self)
         self.input:erase()
         if input:match("/") then -- this is a command, possibly run it locally
             local cmd, args = input:match("^/([^%s]+)%s*(.*)$") -- TODO: this is horrifying. fix it
+            local out = {}
+            self.client.rawCallbacks.updateuser:register(function(_, name)
+                local userid = psutils.userID(name)
+                local cookies = out.cookies
+                if cookies then
+                    storage.saveCookie(userid, cookies)
+                end
+            end)
             if cmd then
                 if cmd == "connect" and args:match("^(.*),(.*)$") then
                     local nick, pass = args:match("^(.*),(.*)$")
-                    self.client:connect(nick, pass)
+                    self.client:connect(nick, pass, out)
+                    return
+                elseif cmd == "reconnect" then
+                    local cookies = storage.getCookie(#args > 0 and args or nil)
+                    self.client:connect(nil, nil, cookies, out)
                     return
                 elseif cmd == "quit" then
                     os.exit()
