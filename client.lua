@@ -223,6 +223,8 @@ methods.getInput = function(self)
         self.input.escape = false
     elseif c == curses.KEY_BACKSPACE or c == 127 or c == ('\b'):byte() then -- backspace
         self.input:backspace()
+    elseif c == 23 then -- ctrl-w
+        self.input:backspace(true)
     elseif c >= 32 and c < 256 then -- either a printable character or utf-8
         self.input:type(c)
     elseif c == curses.KEY_DC then

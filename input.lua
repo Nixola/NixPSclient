@@ -55,9 +55,15 @@ methods.redraw = function(self)
     curses.doupdate()
 end
 
-methods.backspace = function(self)
-    table.remove(self.buffer, self.cursor - 1)
-    self.cursor = math.max(1, math.min(#self.buffer+1, self.cursor - 1))
+methods.backspace = function(self, ctrl)
+    repeat
+        table.remove(self.buffer, self.cursor - 1)
+        self.cursor = math.max(1, math.min(#self.buffer+1, self.cursor - 1))
+    until
+        (not ctrl) or
+        (self.cursor == 1) or
+        (not self.buffer[self.cursor-1]) or
+        (not self.buffer[self.cursor-1]:match("%w") )
     self:redraw()
 end
 
