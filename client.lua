@@ -266,10 +266,10 @@ methods.getInput = function(self)
         self:send(input)
     elseif c == 27 then
         self.input.escape = true
-    elseif c == curses.KEY_PPAGE then
+    elseif c == curses.KEY_NPAGE then
         self.window.scroll = math.max(0, self.window.scroll - 1)
         self:redraw()
-    elseif c == curses.KEY_NPAGE then
+    elseif c == curses.KEY_PPAGE then
         self.window.scroll = self.window.scroll + 1
         self:redraw()
     elseif c == curses.KEY_RESIZE then
